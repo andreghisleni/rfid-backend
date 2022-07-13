@@ -4,8 +4,8 @@
     "host": "localhost",
     "port": 5432,
     "username": "postgres",
-    "password": "docker",
-    "database": "desbravatec",
+    "password": "",
+    "database": "",
     "entities": [
       "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
@@ -21,7 +21,9 @@
     "type": "mongodb",
     "host": "localhost",
     "port": 27017,
-    "database": "desbravatec",
+    "username": "",
+    "password": "",
+    "database": "",
     "useUnifiedTopology": true,
     "entities": [
       "./src/modules/**/infra/typeorm/schemas/*.ts"
