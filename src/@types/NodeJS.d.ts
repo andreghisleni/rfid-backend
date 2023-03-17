@@ -23,5 +23,8 @@ declare namespace NodeJS {
     MQTT_CLID: string;
     MQTT_USER: string;
     MQTT_PASS: string;
+
+    BOT_TOKEN: string;
+    CHAT_ID: string;
   }
 }

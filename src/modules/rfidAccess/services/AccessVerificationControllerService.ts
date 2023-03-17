@@ -1,3 +1,4 @@
+import { ITelegramProvider } from '@shared/container/providers/TelegramProvider/models/IMailProvider';
 import AppError from '@shared/errors/AppError';
 
 import { inject, injectable } from 'tsyringe';
@@ -32,7 +33,10 @@ class AccessVerificationControllerService {
 
     @inject('RfidAccessLogsRepository')
     private rfidAccessLogsRepository: IRfidAccessLogsRepository,
-  ) {} // eslint-disable-line
+
+    @inject('TelegramProvider')
+    private telegramProvider: ITelegramProvider,
+  ) { } // eslint-disable-line
 
   public async execute({ uid }: IRequest): Promise<IResponse> {
     const findTemporaryAddUid = await this.temporaryAddUidsRepository.findAll();
@@ -68,6 +72,10 @@ class AccessVerificationControllerService {
       temporaryAddUid.id as unknown as string,
     );
 
+    await this.telegramProvider.sendTelegramMessage({
+      text: `Novo uid cadastrado para ${temporaryAddUid.name}, ${new Date().toLocaleString()}`, // eslint-disable-line
+    });
+
     return {
       code: 201,
       message: 'new uid created',
@@ -92,6 +100,10 @@ class AccessVerificationControllerService {
 
     await this.rfidAccessLogsRepository.create({
       rfid_access_key: verifyUid,
+    });
+
+    await this.telegramProvider.sendTelegramMessage({
+      text: `Acesso liberado para ${verifyUid.name}, ${new Date().toLocaleString()}`, // eslint-disable-line
     });
 
     return {
